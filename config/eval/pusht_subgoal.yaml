@@ -1,0 +1,59 @@
+defaults:
+  - launcher: local   # run locally (config/eval/launcher/local.yaml)
+  - solver: cem       # CEM planner (config/eval/solver/cem.yaml)
+  - _self_
+
+# ── Environment ──────────────────────────────────────────────────────────────
+# num_envs MUST be 1: each episode follows its own subgoal schedule,
+# so we cannot run multiple episodes in parallel.
+world:
+  env_name: swm/PushT-v1
+  num_envs: 1
+  max_episode_steps: 2000   # overridden at runtime to num_subgoals * segment_budget
+  history_size: 1           # single-frame history
+  frame_skip: 1
+
+# ── Dataset ───────────────────────────────────────────────────────────────────
+dataset:
+  stats: ${eval.dataset_name}
+  keys_to_cache:
+    - action
+    - proprio
+    - state
+
+seed: 42
+
+# Checkpoint path relative to STABLEWM_HOME (without _object.ckpt suffix).
+# Override on command line: policy=pusht/lewm
+policy: pusht/lewm
+
+# ── Planning (identical to pusht.yaml) ───────────────────────────────────────
+# Constraint that must hold: horizon * action_block <= segment_budget
+plan_config:
+  horizon: 5            # plan 5 action blocks into the future
+  receding_horizon: 5   # execute all planned blocks before replanning
+  action_block: 5       # each block = 5 env steps (so 1 replan covers 25 env steps)
+
+# ── Hierarchical subgoal settings ────────────────────────────────────────────
+subgoal:
+  # How far apart (in dataset steps) consecutive subgoals are.
+  # With episodes of 109 steps and spacing=25:
+  #   subgoals at dataset frames [25, 50, 75, 100, 108] → 5 segments
+  spacing: 25
+
+  # Max env steps the agent gets to reach each subgoal before moving on.
+  # Must be >= horizon * action_block (= 25 here).
+  # With budget=50: agent gets 2 replan cycles per subgoal.
+  segment_budget: 50
+
+# ── Evaluation ───────────────────────────────────────────────────────────────
+eval:
+  num_eval: 20          # number of full episodes to evaluate
+  img_size: 224
+  dataset_name: pusht_expert_train
+  min_ep_length: 50     # skip episodes shorter than this (must fit ≥1 subgoal)
+
+# ── Output ────────────────────────────────────────────────────────────────────
+output:
+  filename: pusht_subgoal_results.txt
+  save_video: true
