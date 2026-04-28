@@ -1,0 +1,41 @@
+cache_dir: null
+solver:
+  _target_: stable_worldmodel.solver.CEMSolver
+  model: ???
+  batch_size: 1
+  num_samples: 300
+  var_scale: 1.0
+  n_steps: 30
+  topk: 30
+  device: cuda
+  seed: ${seed}
+world:
+  env_name: swm/PushT-v1
+  num_envs: 1
+  max_episode_steps: 2000
+  history_size: 1
+  frame_skip: 1
+dataset:
+  stats: ${eval.dataset_name}
+  keys_to_cache:
+  - action
+  - proprio
+  - state
+seed: 42
+policy: pusht/lewm
+plan_config:
+  horizon: 5
+  receding_horizon: 5
+  action_block: 5
+subgoal:
+  spacing: 15
+  segment_budget: 30
+eval:
+  num_eval: 20
+  img_size: 224
+  dataset_name: pusht_expert_train
+  min_ep_length: 50
+output:
+  run_name: spacing15_budget30
+  filename: results.txt
+  save_video: true

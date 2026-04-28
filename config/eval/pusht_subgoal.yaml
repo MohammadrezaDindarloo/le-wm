@@ -55,5 +55,6 @@ eval:
 
 # ── Output ────────────────────────────────────────────────────────────────────
 output:
-  filename: pusht_subgoal_results.txt
+  run_name: baseline
+  filename: results.txt
   save_video: true

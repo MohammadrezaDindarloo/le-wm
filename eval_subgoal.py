@@ -370,9 +370,12 @@ def run(cfg: DictConfig):
     print(f"Evaluating {len(sampled_ep_ids)} episodes: {sampled_ep_ids}")
 
     # ── Output paths ─────────────────────────────────────────────────────────
-    results_dir = Path(swm.data.utils.get_cache_dir(), cfg.policy)
+    # Must NOT use <cache>/<policy> directly — AutoCostModel checks that path
+    # for a directory and globs for *_object.ckpt inside it → IndexError.
+    policy_parent = Path(cfg.policy).parent   # e.g. "pusht"
+    results_dir = Path(swm.data.utils.get_cache_dir(), policy_parent, "subgoal_evals", cfg.output.get("run_name", "default"))
     results_dir.mkdir(parents=True, exist_ok=True)
-    video_dir = results_dir / "videos_subgoal"
+    video_dir = results_dir / "videos"
     if cfg.output.save_video:
         video_dir.mkdir(exist_ok=True)
 

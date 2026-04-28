@@ -1,0 +1,3 @@
+- subgoal.spacing=15
+- subgoal.segment_budget=25
+- output.run_name=spacing15_budget25
