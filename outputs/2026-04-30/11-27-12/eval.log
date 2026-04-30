@@ -1,0 +1,7 @@
+[2026-04-30 11:27:12,595][OpenGL.platform.ctypesloader][INFO] - Failed to load library ( 'libOpenGL.so.0' ): libOpenGL.so.0: cannot open shared object file: No such file or directory
+[2026-04-30 11:27:12,613][OpenGL.acceleratesupport][INFO] - No OpenGL_accelerate module loaded: No module named 'OpenGL_accelerate'
+[2026-04-30 11:27:12,701][OpenGL.platform.ctypesloader][INFO] - Failed to load library ( 'libOpenGL.so.0' ): libOpenGL.so.0: cannot open shared object file: No such file or directory
+[2026-04-30 11:27:12,937][absl][INFO] - MUJOCO_GL=egl, attempting to import specified OpenGL backend.
+[2026-04-30 11:27:12,955][OpenGL.platform.ctypesloader][INFO] - Failed to load library ( 'libOpenGL.so.0' ): libOpenGL.so.0: cannot open shared object file: No such file or directory
+[2026-04-30 11:27:15,476][absl][INFO] - MuJoCo library version is: 3.8.0
+[2026-04-30 11:27:48,359][root][INFO] - Cached 'action' from '/users/md4047/.stable_worldmodel/ogbench/cube_single_expert.h5'
