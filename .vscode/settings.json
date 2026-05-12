@@ -1,0 +1,6 @@
+{
+    "python.defaultInterpreterPath": "/users/md4047/miniconda3/envs/lewm/bin/python",
+    "python.analysis.extraPaths": [
+        "/users/md4047/miniconda3/envs/lewm/lib/python3.10/site-packages"
+    ]
+}
